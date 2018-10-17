@@ -20,22 +20,6 @@ module.exports = function (sequelize, DataTypes) {
         comment : {
           type : DataTypes.STRING,
           allowNull : true
-        },
-        id_status : {
-          type : DataTypes.DOUBLE,
-          allowNull: false
-        },
-        address_city : {
-          type : DataTypes.STRING,
-          allowNull : false
-        },
-        price: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        urlimg: {
-            type: DataTypes.STRING,
-            allowNull: false
         }
     }, {
         paranoid: true,
