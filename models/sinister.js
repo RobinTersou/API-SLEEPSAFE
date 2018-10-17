@@ -43,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
         freezeTableName: true
     });
     Sinister.associate = _associate
-    return Host;
+    return Sinister;
 };
 
 // INTERNAL
