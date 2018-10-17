@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/RobinTersou/API-SLEEPSAFE#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.39.1"
   }
 }

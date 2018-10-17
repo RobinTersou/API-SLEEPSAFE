@@ -6,6 +6,6 @@ module.exports = {
         dbname : 'sleepsafe',
         user : 'root',
         password : 'root',
-        port : 3306
+        port : 8889
     }
 }

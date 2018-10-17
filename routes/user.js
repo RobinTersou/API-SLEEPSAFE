@@ -43,3 +43,5 @@ userRouter.put('/', function(req, res) {
 userRouter.delete('/', function(req,res) {
 
 })
+
+module.exports = userRouter;
