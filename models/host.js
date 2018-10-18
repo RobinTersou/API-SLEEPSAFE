@@ -30,10 +30,9 @@ module.exports = function (sequelize, DataTypes) {
         underscored: true,
         freezeTableName: true
     });
+    Host.associate = _associate;
     return Host;
 };
-Host.associate = _associate;
-return Host;
 // INTERNAL
 
 function _associate(models) {
