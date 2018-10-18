@@ -53,7 +53,7 @@ hostRouter.get('/:id?', function(req, res) {
 });
 
 hostRouter.put('/:id', function(req,res) {
-    const id_host = req.param.id;
+    const id_host = req.params.id;
     const distance = req.body.distance;
     const address_number = req.body.address_number;
     const address_city = req.body.address_city;
@@ -69,13 +69,22 @@ hostRouter.put('/:id', function(req,res) {
         || nb_bed === undefined 
         || id_host === undefined 
         || id_user === undefined ) {
+            console.log(distance);
+            console.log(address_number);
+            console.log(address_name);
+            console.log(address_zipcode);
+            console.log(address_city);
+            console.log(nb_bed);
+            console.log(id_host);
+            console.log(id_user);
+            
             res.status(400).end();
             return;
     }
-    HostController.getAll(id)
+    HostController.getAll(id_host)
         .then( (host) => {
             if( host[0] !== undefined ) {
-                HostController.update(id_host, istance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user)
+                HostController.update(id_host, distance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user)
                     .then( (host) => {
                         res.status(200).json(host).end()
                     })
@@ -93,7 +102,7 @@ hostRouter.delete('/:id', function(req, res){
     .then((user) => {
       if (user){
 
-      HostController.del(id)
+      HostController.delete(id)
         .then((p) => {
             res.status(200).json("Host deleted");
         });

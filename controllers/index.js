@@ -1,3 +1,5 @@
 module.exports = {
-    UserController : require('./user')
+    UserController : require('./user'),
+    SinisterController : require('./sinister'),
+    HostController : require('./host')
 }

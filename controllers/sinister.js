@@ -1,5 +1,5 @@
 const ModelIndex = require('../models');
-const Sinister = ModelIndex.Host;
+const Sinister = ModelIndex.Sinister;
 const Op = ModelIndex.sequelize.Op;
 
 const SinisterController = function() { };
@@ -7,13 +7,14 @@ const SinisterController = function() { };
 /**
 *  Creation d'un element en base
 **/
-SinisterController.add = function(id_phone, nb_people,localisation,comment) {
-
+SinisterController.add = function(id_phone, nb_people,localisation,comment, id_host, id_status) {
     return Sinister.create({
         id_phone: id_phone,
         nb_people : nb_people,
         localisation : localisation,
-        comment : comment
+        comment : comment,
+        id_host : id_host,
+        id_status : id_status
     });
 };
 
@@ -35,13 +36,13 @@ SinisterController.find = function(id){
   return Sinister.findById(id);
 }
 
-SinisterController.getAll = function (search) {
+SinisterController.getAll = function (id) {
     const options = {};
     const where = {};
 
-    if( search !== undefined ) {
-        where.name = {
-            [Op.like]:`${search}%`
+    if( id !== undefined ) {
+        where.id = {
+            [Op.like]:`${id}%`
         };
     }
     options.where = where;
@@ -49,7 +50,7 @@ SinisterController.getAll = function (search) {
 };
 
 
-SinisterController.del = function(search){
+SinisterController.delete = function(search){
   const options = {};
   const where = {};
   if (search !== undefined){
@@ -58,7 +59,7 @@ SinisterController.del = function(search){
     };
   }
   options.where = where;
-  return Host.destroy(options);
+  return Sinister.destroy(options);
 }
 
 

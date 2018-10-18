@@ -8,29 +8,32 @@ sinisterRouter.use(bodyParser.json());
 sinisterRouter.use(bodyParser.urlencoded({ extended: true }))
 
 
-sinisterRouter.get('/', function(req, res) {
-  const name = req.query.name;
-  SinisterController.getAll(name)
-  .then( (sinisters) => {
-    res.json(sinisters);
-  })
-  .catch( (err) => {
-    console.error(err);
-    res.status(500).end();
-  })
+sinisterRouter.get('/:id?', function(req, res) {
+    const id = req.params.id;
+    SinisterController.getAll(id)
+        .then( (sinisters) => {
+            res.json(sinisters);
+        })
+        .catch( (err) => {
+            console.error(err);
+            res.status(500).end();
+        })
 });
 
 
-sinisterst('/', function(req,res) {
+sinisterRouter.post('/', function(req,res) {
+    const id_phone = req.body.id_phone
     const nb_people = req.body.nb_people;
     const localisation = req.body.localisation;
     const comment = req.body.comment;
+    const id_host = req.body.id_host;
+    const id_status = req.body.id_status | 1;
 
-    if(  nb_people === undefined || localisation === undefined ||| ) {
+    if( id_phone === undefined, nb_people === undefined || localisation === undefined ) {
         res.status(400).json('Vous n\'avez pas rempli un des paramètres requis. Veuillez réessayer.').end();
         return;
     }
-    SinisterController.add(nb_people, localisation, comment)
+    SinisterController.add(id_phone, nb_people, localisation, comment, id_host, id_status)
       .then( (p) => {
           res.status(201).json(p);
       })
@@ -41,16 +44,15 @@ sinisterst('/', function(req,res) {
 });
 
 
-sinisterRouter.delete('/', function(req, res){
-  const id = req.query.id;
+sinisterRouter.delete('/:id', function(req, res){
+  const id = req.params.id;
   SinisterController.find(id)
     .then((user) => {
       if (user){
-
-      SinisterController.del(id)
-        .then((p) => {
-            res.status(200).json("Sinister deleted");
-        });
+          SinisterController.delete(id)
+            .then((p) => {
+                res.status(200).json("Sinister deleted");
+            });
       }else{
           res.status(403).json("Sinister not found")
       }
