@@ -39,4 +39,12 @@ models.Sinister.belongsTo(models.Host, {
     name : "id_host"
   }
 });
+models.Sinister.belongsTo(models.User, {
+  as : 'phone',
+  foreignKey : {
+    name : "id_phone"
+  }
+});
+
+
 }
