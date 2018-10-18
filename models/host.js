@@ -32,7 +32,8 @@ module.exports = function (sequelize, DataTypes) {
     });
     return Host;
 };
-
+Host.associate = _associate;
+return Host;
 // INTERNAL
 
 function _associate(models) {

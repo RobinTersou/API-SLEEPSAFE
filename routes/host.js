@@ -30,11 +30,11 @@ hostRouter.get('/', function(req, res) {
     const address_zipcode = req.body.address_zipcode
     const nb_bed = req.body.nb_bed
 
-    if( name === undefined || distance === undefined || address_number === undefined ||| address_name === undefined ||| address_zipcode === undefined ||| address_city === undefined ||| nb_bed === undefined ) {
+    if( distance === undefined || address_number === undefined ||| address_name === undefined ||| address_zipcode === undefined ||| address_city === undefined ||| nb_bed === undefined ) {
         res.status(400).json('Vous n\'avez pas rempli un des paramètres requis. Veuillez réessayer.').end();
         return;
     }
-    HostController.add(name, distance , nb_bed ,address_number,address_city,address_name,address_zipcode)
+    HostController.add(distance , nb_bed ,address_number,address_city,address_name,address_zipcode)
       .then( (p) => {
           res.status(201).json(p);
       })
