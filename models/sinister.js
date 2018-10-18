@@ -45,6 +45,12 @@ models.Sinister.belongsTo(models.User, {
     name : "id_phone"
   }
 });
+models.Sinister.belongsTo(models.Status, {
+    as : 'status',
+    foreignKey : {
+        name : "id_status"
+    }
+})
 
 
 }
