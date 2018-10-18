@@ -58,6 +58,17 @@ UserController.verifyPassword = function(pwd, pwd1) {
     return false;
 }
 
+UserController.exist = function(email) {
+    const options = {}
+    const where = {}
 
+    if( email !== undefined ) {
+        where.email = {
+            [Op.eq] : `${email}`
+        }
+    }
+    options.where = where;
+    return User.find(options);
+}
 
 module.exports = UserController;

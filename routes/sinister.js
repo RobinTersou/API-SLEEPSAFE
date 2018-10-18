@@ -8,7 +8,7 @@ sinisterRouter.use(bodyParser.json());
 sinisterRouter.use(bodyParser.urlencoded({ extended: true }))
 
 
-sinisterRouter.get('/:id?', function(req, res) {
+sinisterRouter.get('/:id?', utils.checkToken, function(req, res) {
     const id = req.params.id;
     SinisterController.getAll(id)
         .then( (sinisters) => {
@@ -44,7 +44,7 @@ sinisterRouter.post('/', function(req,res) {
 });
 
 
-sinisterRouter.delete('/:id', function(req, res){
+sinisterRouter.delete('/:id', utils.checkToken, function(req, res){
   const id = req.params.id;
   SinisterController.find(id)
     .then((user) => {

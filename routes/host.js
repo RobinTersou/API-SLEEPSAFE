@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const HostController = controllers.HostController;
-
+const utils = require('../utils');
 const hostRouter = express.Router();
 hostRouter.use(bodyParser.json());
 hostRouter.use(bodyParser.urlencoded({ extended: true }))
 
 
-hostRouter.get('/:id?', function(req, res) {
+hostRouter.get('/:id?', utils.checkToken, function(req, res) {
     const name = req.query.name;
     const id = req.params.id;
     HostController.getAll(id)
@@ -23,7 +23,7 @@ hostRouter.get('/:id?', function(req, res) {
 
 
 
- hostRouter.post('/', function(req,res) {
+hostRouter.post('/', utils.checkToken, function(req,res) {
     const distance = req.body.distance;
     const address_number = req.body.address_number;
     const address_city = req.body.address_city;
@@ -52,7 +52,7 @@ hostRouter.get('/:id?', function(req, res) {
       });
 });
 
-hostRouter.put('/:id', function(req,res) {
+hostRouter.put('/:id', utils.checkToken, function(req,res) {
     const id_host = req.params.id;
     const distance = req.body.distance;
     const address_number = req.body.address_number;
@@ -96,7 +96,7 @@ hostRouter.put('/:id', function(req,res) {
         })
 })
 
-hostRouter.delete('/:id', function(req, res){
+hostRouter.delete('/:id', utils.checkToken, function(req, res){
   const id = req.params.id;
   HostController.find(id)
     .then((user) => {

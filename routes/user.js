@@ -13,7 +13,7 @@ userRouter.use(bodyParser.json());
  * Recupération d'un ou plusieurs User
  * Params : id
  */
-userRouter.get('/:id?', function(req,res) {
+userRouter.get('/:id?', utils.checkToken, function(req,res) {
     const id = req.params.id;
 
     UserController.getAll(id)
@@ -66,7 +66,7 @@ userRouter.post('/', function(req,res) {
  * Method : PUT
  * Modification d'un User
  */
-userRouter.put('/:id', function(req, res) {
+userRouter.put('/:id', utils.checkToken, function(req, res) {
     const id = req.params.id;
     const id_phone = req.body.id_phone;
     const email = req.body.email;
@@ -107,7 +107,7 @@ userRouter.put('/:id', function(req, res) {
  * Method : DELETE
  * Suppression d'un User
  */
-userRouter.delete('/:id', function(req,res) {
+userRouter.delete('/:id', utils.checkToken, function(req,res) {
     const id = req.params.id;
     if( id === undefined ) {
         res.status(400).end();
