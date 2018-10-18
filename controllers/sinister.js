@@ -19,13 +19,14 @@ SinisterController.add = function(id_phone, nb_people,localisation,comment, id_h
 };
 
 
-SinisterController.update = function(id_phone , nb_people, localisation , comment, id_status) {
+SinisterController.update = function(id, id_phone , nb_people, localisation , comment, id_status, id_host) {
     return Sinister.update({
       id_phone: id_phone,
       nb_people : nb_people,
       localisation : localisation,
       comment : comment,
-      id_status : id_status
+      id_status : id_status,
+      id_host : id_host
     }, {
         where : {
             id : id
@@ -35,6 +36,19 @@ SinisterController.update = function(id_phone , nb_people, localisation , commen
 
 SinisterController.find = function(id){
   return Sinister.findById(id);
+}
+
+SinisterController.findByPhone = function(id_phone) {
+    const options = {};
+    const where = {};
+
+    if( id_phone !== undefined ) {
+        where.id_phone = {
+            [Op.like]:`${id_phone}%`
+        };
+    }
+    options.where = where;
+    return Sinister.findAll(options);
 }
 
 SinisterController.getAll = function (id) {

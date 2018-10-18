@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const SinisterController = controllers.SinisterController;
 const utils = require('../utils');
-
+const HostController = controllers.HostController;
 const sinisterRouter = express.Router();
 sinisterRouter.use(bodyParser.json());
 sinisterRouter.use(bodyParser.urlencoded({ extended: true }))
@@ -15,6 +15,7 @@ sinisterRouter.get('/current', function(req, res) {
             res.status(200).json(sinisters)
         })
         .catch( (err) => {
+            console.log(err);
             res.status(500).end();
         })
 })
@@ -55,35 +56,92 @@ sinisterRouter.post('/', function(req,res) {
       });
 });
 
-sinisterRouter.put('/', function (req,res))
-{
+sinisterRouter.put('/hosting', function (req,res) {
     const id_phone = req.body.id_phone;
     const id_host = req.body.id_host;
-    var nb_people = undefined;
-    var nb_lit = undefined;
-    var id_sinister = undefined;
-    var id_status = undefined;
+    let nb_people = undefined;
+    let nb_lit = undefined;
+    
+    SinisterController.findByPhone(id_phone)
+        .then((sinister) => {
+            sinister = sinister[0];
+            nb_people = sinister.nb_people;
+            SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"2", id_host)
+                .then( (s) => {
+                    
+                    if (sinister.nb_people === undefined) {
+                        res.status(403).json('Data missing').end();
+                        return;
+                    }else {
+                        HostController.find(parseInt(id_host))
+                            .then( (host) => {
+                                
+                                nb_lit = host.nb_bed - nb_people
+                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                    .then ((host) => {
+                                        res.status(201).json(host);
+                                    })
+                                    .catch( (err) => {
+                                        console.log(err);
+                                        res.status(500).end();
+                                    })
+                            })
+                            .catch( (err) => {
+                                console.log(err);
+                                res.status(500).end();
+                            })
+                    }
+                })
+                .catch( (err) => {
+                    console.log(err)
+                    res.status(500).end()
+                })
+            
+        });
+})
 
-  SinisterController.find(parseInt(id_phone))
-    .then((sinister) => {
-      nb_people = sinister.nb_people;
-      SinisterController.update(sinister.id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"2")
-      if (nb_people === undefined) {
-        res.status(403).json('Data missing').end();
-        return;
-      }
-    });
-
-  HostController.find(parseInt(id_host))
-    .then((host) => {
-      nb_lit = host.nb_lit - nb_people
-      HostController.update(host.distance, nb_lit, host.address_number,host.address_city, host.address_name, host.address_zipcode)
-      .then ((host)) => {
-        res.status(201).json(host);
-
-
-  }};
-}
+sinisterRouter.put('/release', function(req, res) {
+    const id_phone = req.body.id_phone;
+    const id_host = req.body.id_host;
+    let nb_people = undefined;
+    let nb_lit = undefined;
+    
+    SinisterController.findByPhone(id_phone)
+        .then((sinister) => {
+            sinister = sinister[0];
+            nb_people = sinister.nb_people;
+            SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"3", id_host)
+                .then( (s) => {
+                    
+                    if (sinister.nb_people === undefined) {
+                        res.status(403).json('Data missing').end();
+                        return;
+                    }else {
+                        HostController.find(parseInt(id_host))
+                            .then( (host) => {
+                                
+                                nb_lit = host.nb_bed + nb_people
+                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                    .then ((host) => {
+                                        res.status(201).json(host);
+                                    })
+                                    .catch( (err) => {
+                                        res.status(500).end();
+                                    })
+                            })
+                            .catch( (err) => {
+                                console.log(err);
+                                res.status(500).end();
+                            })
+                    }
+                })
+                .catch( (err) => {
+                    console.log(err)
+                    res.status(500).end()
+                })
+            
+        });
+})
 
 sinisterRouter.delete('/:id', utils.checkToken, function(req, res){
   const id = req.params.id;

@@ -35,6 +35,8 @@ HostController.add = function(distance, nb_bed, address_number, address_city, ad
 
 
 HostController.update = function(id, distance , nb_bed, address_number, address_city, address_name,address_zipcode ) {
+    console.log("--------------------------");
+    console.log(address_zipcode);
     return Host.update({
       distance: distance,
       nb_bed : nb_bed,

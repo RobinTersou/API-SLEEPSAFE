@@ -10,6 +10,7 @@ module.exports = {
     },
     status : [
         "waiting",
-        "Hosted"
+        "Hosted",
+        "Ended"
     ]
 }
