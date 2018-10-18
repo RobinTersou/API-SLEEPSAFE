@@ -1,14 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const Host = sequelize.define('Host', {
-        id: {
-            type: DataTypes.BIGINT,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+
         nb_bed : {
           type : DataTypes.DOUBLE,
           allowNull : false
@@ -40,9 +32,16 @@ module.exports = function (sequelize, DataTypes) {
     });
     return Host;
 };
-
+Host.associate = _associate;
+return Host;
 // INTERNAL
 
 function _associate(models) {
+  models.Host.belongsTo(models.User, {
+    as : 'user',
+    foreignKey : {
+      name : "id_user"
+    }
+  });
 
 }

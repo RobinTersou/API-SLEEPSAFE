@@ -38,11 +38,13 @@ Object.keys(ModelIndex)
     if (ModelIndex[modelName].associate) {
         ModelIndex[modelName].associate(ModelIndex);
     }
+    if( ModelIndex[modelName].initialize) {
+        ModelIndex[modelName].initialize(ModelIndex);
+    }
 });
 
 ModelIndex.sequelize = sequelize;
 ModelIndex.openDatabase = function() {
-
     return sequelize
         .authenticate()
             .then( () => {

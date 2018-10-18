@@ -7,5 +7,9 @@ module.exports = {
         user : 'root',
         password : '',
         port : 3306
-    }
+    },
+    status : [
+        "waiting",
+        "Hosted"
+    ]
 }

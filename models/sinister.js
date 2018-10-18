@@ -33,10 +33,17 @@ module.exports = function (sequelize, DataTypes) {
 // INTERNAL
 
 function _associate(models) {
-models.Sinister.belongsTo(models.Host, {
-  as : 'host',
-  foreignKey : {
-    name : "id_host"
-  }
-});
+    models.Sinister.belongsTo(models.Host, {
+        as : 'host',
+        foreignKey : {
+            name : "id_host"
+        }
+    });
+    models.Sinister.belongsTo(models.Status, {
+        as : 'status',
+        foreignKey : {
+            name : "id_status"
+        }
+    })
+
 }
