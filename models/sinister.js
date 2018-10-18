@@ -45,4 +45,5 @@ function _associate(models) {
             name : "id_status"
         }
     })
+
 }
