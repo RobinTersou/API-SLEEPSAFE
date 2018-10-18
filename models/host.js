@@ -44,5 +44,11 @@ module.exports = function (sequelize, DataTypes) {
 // INTERNAL
 
 function _associate(models) {
+  models.Host.belongsTo(models.User, {
+    as : 'user',
+    foreignKey : {
+      name : "id_user"
+    }
+  });
 
 }
