@@ -61,33 +61,33 @@ sinisterRouter.put('/hosting', function (req,res) {
     const id_host = req.body.id_host;
     let nb_people = undefined;
     let nb_lit = undefined;
-    
+
     SinisterController.findByPhone(id_phone)
         .then((sinister) => {
             sinister = sinister[0];
             nb_people = sinister.nb_people;
             SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"2", id_host)
                 .then( (s) => {
-                    
+
                     if (sinister.nb_people === undefined) {
                         res.status(403).json('Data missing').end();
                         return;
                     }else {
                         HostController.find(parseInt(id_host))
                             .then( (host) => {
-                                
                                 nb_lit = host.nb_bed - nb_people
-                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
-                                    .then ((host) => {
-                                        res.status(201).json(host);
-                                    })
-                                    .catch( (err) => {
-                                        console.log(err);
-                                        res.status(500).end();
-                                    })
+                                if (nb_lit <= 0 ) {
+                                    res.status(403).json('Nombre de lits inférieur à 0').end();
+                                }
+                                else {
+                                  HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                      .then ((host) => {
+                                          res.status(201).json(host);
+                                      })
+                                }
                             })
                             .catch( (err) => {
-                                console.log(err);
+                                console.log(err)
                                 res.status(500).end();
                             })
                     }
@@ -96,38 +96,43 @@ sinisterRouter.put('/hosting', function (req,res) {
                     console.log(err)
                     res.status(500).end()
                 })
-            
+
         });
 })
 
-sinisterRouter.put('/release', function(req, res) {
+sinisterRouter.put('/release', function (req,res) {
     const id_phone = req.body.id_phone;
     const id_host = req.body.id_host;
     let nb_people = undefined;
     let nb_lit = undefined;
-    
+
     SinisterController.findByPhone(id_phone)
         .then((sinister) => {
             sinister = sinister[0];
             nb_people = sinister.nb_people;
+            if (sinister.id_status === 3){
+              res.status(403).json('id_status already at 3').end();
+              return;
+
+            }else {
             SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"3", id_host)
                 .then( (s) => {
-                    
+
                     if (sinister.nb_people === undefined) {
                         res.status(403).json('Data missing').end();
                         return;
                     }else {
                         HostController.find(parseInt(id_host))
                             .then( (host) => {
-                                
-                                nb_lit = host.nb_bed + nb_people
-                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
-                                    .then ((host) => {
-                                        res.status(201).json(host);
-                                    })
-                                    .catch( (err) => {
-                                        res.status(500).end();
-                                    })
+
+
+
+                                  nb_lit = host.nb_bed + nb_people;
+                                  HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                      .then ((host) => {
+                                          res.status(201).json(host);
+                                      })
+
                             })
                             .catch( (err) => {
                                 console.log(err);
@@ -139,7 +144,7 @@ sinisterRouter.put('/release', function(req, res) {
                     console.log(err)
                     res.status(500).end()
                 })
-            
+}
         });
 })
 
