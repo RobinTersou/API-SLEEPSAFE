@@ -19,12 +19,13 @@ SinisterController.add = function(id_phone, nb_people,localisation,comment, id_h
 };
 
 
-SinisterController.update = function(id_phone , nb_people, localisation , comment ) {
+SinisterController.update = function(id_phone , nb_people, localisation , comment, id_status) {
     return Sinister.update({
       id_phone: id_phone,
       nb_people : nb_people,
       localisation : localisation,
-      comment : comment
+      comment : comment,
+      id_status : id_status
     }, {
         where : {
             id : id
