@@ -87,8 +87,8 @@ hostRouter.put('/:id', function(req,res) {
         })
 })
 
-hostRouter.delete('/', function(req, res){
-  const id = req.query.id;
+hostRouter.delete('/:id', function(req, res){
+  const id = req.params.id;
   HostController.find(id)
     .then((user) => {
       if (user){

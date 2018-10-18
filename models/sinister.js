@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         id_phone: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         nb_people : {
           type : DataTypes.DOUBLE,

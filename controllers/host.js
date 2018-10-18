@@ -20,6 +20,7 @@ HostController.getAll = function (id) {
 /**
 *  Creation d'un element en base
 **/
+
 HostController.add = function(distance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user) {
     return Host.create({
         distance: distance,
@@ -31,6 +32,22 @@ HostController.add = function(distance, nb_bed, address_number, address_city, ad
         id_user : id_user
     });
 };
+
+
+HostController.update = function(distance , nb_bed, address_number, address_city, address_name,address_zipcode ) {
+    return Host.update({
+      distance: distance,
+      nb_bed : nb_bed,
+      address_number : address_number,
+      address_city : address_city,
+      address_name : address_name,
+      address_zipcode : address_zipcode
+    }, {
+        where : {
+            id : id
+        }
+    })
+}
 
 HostController.find = function(id){
   return Host.findById(id);
