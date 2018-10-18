@@ -20,7 +20,7 @@ sinisterRouter.get('/current', function(req, res) {
         })
 })
 
-sinisterRouter.get('/:id?', utils.checkToken, function(req, res) {
+sinisterRouter.get('/:id?', /*utils.checkToken,*/ function(req, res) {
     const id = req.params.id;
     SinisterController.getAll(id)
         .then( (sinisters) => {
@@ -143,7 +143,7 @@ sinisterRouter.put('/release', function(req, res) {
         });
 })
 
-sinisterRouter.delete('/:id', utils.checkToken, function(req, res){
+sinisterRouter.delete('/:id', /*utils.checkToken,*/ function(req, res){
   const id = req.params.id;
   SinisterController.find(id)
     .then((user) => {

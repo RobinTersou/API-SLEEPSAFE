@@ -8,7 +8,7 @@ hostRouter.use(bodyParser.json());
 hostRouter.use(bodyParser.urlencoded({ extended: true }))
 
 
-hostRouter.get('/:id?', utils.checkToken, function(req, res) {
+hostRouter.get('/:id?', /*utils.checkToken,*/ function(req, res) {
     const name = req.query.name;
     const id = req.params.id;
     HostController.getAll(id)
@@ -25,7 +25,7 @@ hostRouter.get('/accept_sinister', function(req, res) {
     // Envoi notif
 })
 
-hostRouter.post('/', utils.checkToken, function(req,res) {
+hostRouter.post('/', /*utils.checkToken,*/ function(req,res) {
     const distance = req.body.distance;
     const address_city = req.body.address_city;
     const address_name = req.body.address_name;
@@ -52,7 +52,7 @@ hostRouter.post('/', utils.checkToken, function(req,res) {
       });
 });
 
-hostRouter.put('/:id', utils.checkToken, function(req,res) {
+hostRouter.put('/:id', /*utils.checkToken,*/ function(req,res) {
     const id_host = req.params.id;
     const distance = req.body.distance;
     const address_city = req.body.address_city;
@@ -86,7 +86,7 @@ hostRouter.put('/:id', utils.checkToken, function(req,res) {
         })
 })
 
-hostRouter.delete('/:id', utils.checkToken, function(req, res){
+hostRouter.delete('/:id', /*utils.checkToken,*/function(req, res){
   const id = req.params.id;
   HostController.find(id)
     .then((user) => {
