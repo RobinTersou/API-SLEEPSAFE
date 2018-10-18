@@ -2,23 +2,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const SinisterController = controllers.SinisterController;
+const utils = require('../utils');
 
 const sinisterRouter = express.Router();
 sinisterRouter.use(bodyParser.json());
 sinisterRouter.use(bodyParser.urlencoded({ extended: true }))
 
 
+sinisterRouter.get('/current', function(req, res) {
+    SinisterController.getAllCurrent()
+        .then( (sinisters) => {
+            res.status(200).json(sinisters)
+        })
+        .catch( (err) => {
+            res.status(500).end();
+        })
+})
+
 sinisterRouter.get('/:id?', utils.checkToken, function(req, res) {
     const id = req.params.id;
     SinisterController.getAll(id)
         .then( (sinisters) => {
-            res.json(sinisters);
+            res.status(200).json(sinisters);
         })
         .catch( (err) => {
             console.error(err);
             res.status(500).end();
         })
 });
+
 
 
 sinisterRouter.post('/', function(req,res) {

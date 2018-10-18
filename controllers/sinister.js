@@ -49,6 +49,16 @@ SinisterController.getAll = function (id) {
     return Sinister.findAll(options);
 };
 
+SinisterController.getAllCurrent = function() {
+    const options = {};
+    const where = {
+        id_status : {
+            [Op.eq] : 1
+        }
+    }
+    options.where = where;
+    return Sinister.findAll(options);
+}
 
 SinisterController.delete = function(search){
   const options = {};
