@@ -27,7 +27,6 @@ hostRouter.get('/accept_sinister', function(req, res) {
 
 hostRouter.post('/', utils.checkToken, function(req,res) {
     const distance = req.body.distance;
-    const address_number = req.body.address_number;
     const address_city = req.body.address_city;
     const address_name = req.body.address_name;
     const address_zipcode = req.body.address_zipcode
@@ -35,7 +34,6 @@ hostRouter.post('/', utils.checkToken, function(req,res) {
     const id_user = req.body.id_user
 
     if( distance === undefined 
-        || address_number == undefined
         || address_name === undefined 
         || address_zipcode === undefined 
         || address_city === undefined 
@@ -57,28 +55,18 @@ hostRouter.post('/', utils.checkToken, function(req,res) {
 hostRouter.put('/:id', utils.checkToken, function(req,res) {
     const id_host = req.params.id;
     const distance = req.body.distance;
-    const address_number = req.body.address_number;
     const address_city = req.body.address_city;
     const address_name = req.body.address_name;
     const address_zipcode = req.body.address_zipcode
     const nb_bed = req.body.nb_bed
     const id_user = req.body.id_user;
     if( distance === undefined 
-        || address_number == undefined 
         || address_name === undefined 
         || address_zipcode === undefined 
         || address_city === undefined 
         || nb_bed === undefined 
         || id_host === undefined 
         || id_user === undefined ) {
-            console.log(distance);
-            console.log(address_number);
-            console.log(address_name);
-            console.log(address_zipcode);
-            console.log(address_city);
-            console.log(nb_bed);
-            console.log(id_host);
-            console.log(id_user);
             
             res.status(400).end();
             return;
@@ -86,7 +74,7 @@ hostRouter.put('/:id', utils.checkToken, function(req,res) {
     HostController.getAll(id_host)
         .then( (host) => {
             if( host[0] !== undefined ) {
-                HostController.update(id_host, distance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user)
+                HostController.update(id_host, distance, nb_bed, address_city, address_name, address_zipcode, id_user)
                     .then( (host) => {
                         res.status(200).json(host).end()
                     })

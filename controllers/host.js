@@ -21,11 +21,10 @@ HostController.getAll = function (id) {
 *  Creation d'un element en base
 **/
 
-HostController.add = function(distance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user) {
+HostController.add = function(distance, nb_bed, address_city, address_name, address_zipcode, id_user) {
     return Host.create({
         distance: distance,
         nb_bed : nb_bed,
-        address_number : address_number,
         address_city : address_city,
         address_name : address_name,
         address_zipcode : address_zipcode,
@@ -34,13 +33,10 @@ HostController.add = function(distance, nb_bed, address_number, address_city, ad
 };
 
 
-HostController.update = function(id, distance , nb_bed, address_number, address_city, address_name,address_zipcode ) {
-    console.log("--------------------------");
-    console.log(address_zipcode);
+HostController.update = function(id, distance , nb_bed, address_city, address_name,address_zipcode ) {
     return Host.update({
       distance: distance,
       nb_bed : nb_bed,
-      address_number : address_number,
       address_city : address_city,
       address_name : address_name,
       address_zipcode : address_zipcode

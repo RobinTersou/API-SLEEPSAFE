@@ -9,10 +9,6 @@ module.exports = function (sequelize, DataTypes) {
           type : DataTypes.DOUBLE,
           allowNull : false
         },
-        address_number : {
-          type : DataTypes.DOUBLE,
-          allowNull : false
-        },
         address_name : {
           type : DataTypes.STRING,
           allowNull: false
