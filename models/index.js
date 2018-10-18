@@ -31,7 +31,13 @@ fs.readdirSync(__dirname)
         ModelIndex[model.name] = model;
 
     });
-
+Object.keys(ModelIndex)
+.forEach((modelName) => {
+    if (ModelIndex[modelName].associate) {
+        ModelIndex[modelName].associate(ModelIndex);
+    }
+    
+});
 
 ModelIndex.sequelize = sequelize;
 ModelIndex.openDatabase = function() {
@@ -41,14 +47,11 @@ ModelIndex.openDatabase = function() {
                 sequelize.sync()
                     .then( () => {
                         Object.keys(ModelIndex)
-                            .forEach((modelName) => {
-                                if (ModelIndex[modelName].associate) {
-                                    ModelIndex[modelName].associate(ModelIndex);
-                                }
-                                if( ModelIndex[modelName].initialize) {
-                                    ModelIndex[modelName].initialize(ModelIndex);
-                                }
-                            });
+                        .forEach((modelName) => {
+                            if( ModelIndex[modelName].initialize) {
+                                ModelIndex[modelName].initialize(ModelIndex);
+                            }
+                        })
                     })
             })
             .catch( (err) => {
