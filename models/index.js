@@ -32,16 +32,6 @@ fs.readdirSync(__dirname)
 
     });
 
-// ASSOCIATE MODELS
-Object.keys(ModelIndex)
-.forEach((modelName) => {
-    if (ModelIndex[modelName].associate) {
-        ModelIndex[modelName].associate(ModelIndex);
-    }
-    if( ModelIndex[modelName].initialize) {
-        ModelIndex[modelName].initialize(ModelIndex);
-    }
-});
 
 ModelIndex.sequelize = sequelize;
 ModelIndex.openDatabase = function() {
@@ -49,10 +39,23 @@ ModelIndex.openDatabase = function() {
         .authenticate()
             .then( () => {
                 sequelize.sync()
+                    .then( () => {
+                        Object.keys(ModelIndex)
+                            .forEach((modelName) => {
+                                if (ModelIndex[modelName].associate) {
+                                    ModelIndex[modelName].associate(ModelIndex);
+                                }
+                                if( ModelIndex[modelName].initialize) {
+                                    ModelIndex[modelName].initialize(ModelIndex);
+                                }
+                            });
+                    })
             })
             .catch( (err) => {
                 console.log(err);
             });
 };
+
+// ASSOCIATE MODELS
 
 module.exports = ModelIndex;
