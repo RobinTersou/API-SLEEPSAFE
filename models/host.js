@@ -1,14 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const Host = sequelize.define('Host', {
-        id: {
-            type: DataTypes.BIGINT,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+
         nb_bed : {
           type : DataTypes.DOUBLE,
           allowNull : false

@@ -9,8 +9,7 @@ const HostController = function() { };
 **/
 HostController.add = function(name, distance, nb_bed,address_number,address_city,address_name,address_zipcode) {
 
-    return Burger.create({
-        name: name,
+    return Host.create({
         distance: distance,
         nb_bed : nb_bed,
         address_number : address_number,

@@ -23,7 +23,6 @@ hostRouter.get('/', function(req, res) {
 
 
  hostRouter.post('/', function(req,res) {
-    const name = req.body.name;
     const distance = req.body.distance;
     const address_number = req.body.address_number;
     const address_city = req.body.address_city;
