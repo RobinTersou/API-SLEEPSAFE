@@ -1,3 +1,5 @@
+const config = require('../config');
+
 module.exports = function (sequelize, DataTypes) {
     const Status = sequelize.define('Status', {
         id: {
@@ -14,6 +16,7 @@ module.exports = function (sequelize, DataTypes) {
         underscored: true,
         freezeTableName: true
     });
+    Status.initialize = _initialize
     return Status;
 };
 
@@ -21,4 +24,22 @@ module.exports = function (sequelize, DataTypes) {
 
 function _associate(models) {
 
+}
+
+function _initialize(models) {
+    models.Status.count()
+        .then( (count) => {
+            if( count == 0 ) {
+                createStatus(models);
+            }
+        })
+}
+
+function createStatus(models) {
+    var status = config.status;
+    for ( item in status ) {
+        models.Status.create({
+            libelle : status[item] 
+        })
+    }
 }
