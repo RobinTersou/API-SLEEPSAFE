@@ -12,5 +12,6 @@ module.exports = {
         "waiting",
         "Hosted",
         "Ended"
-    ]
+    ],
+    nb_sinister : 2
 }

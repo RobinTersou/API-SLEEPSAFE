@@ -21,10 +21,6 @@ hostRouter.get('/:id?', /*utils.checkToken,*/ function(req, res) {
         })
 });
 
-hostRouter.get('/accept_sinister', function(req, res) {
-    // Envoi notif
-})
-
 hostRouter.post('/', /*utils.checkToken,*/ function(req,res) {
     const distance = req.body.distance;
     const address_city = req.body.address_city;

@@ -4,6 +4,7 @@ const controllers = require('../controllers');
 const SinisterController = controllers.SinisterController;
 const utils = require('../utils');
 const HostController = controllers.HostController;
+const UserController = controllers.UserController;
 const sinisterRouter = express.Router();
 const NotificationController = require('../notifications').NotificationController;
 sinisterRouter.use(bodyParser.json());
@@ -49,15 +50,15 @@ sinisterRouter.post('/', function(req,res) {
     }
     SinisterController.add(id_phone, nb_people, localisation, comment, id_host, id_status)
         .then( (p) => {
-            HostController.getAll()
-                .then( (hosts) => {
+            UserController.getAll()
+                .then( (users) => {
                     
-                    for ( var i = 0 ; i < hosts.length ; i++ ) {
-                        //console.log(hosts[i].user);
+                    for ( var i = 0 ; i < users.length ; i++ ) {
+                        console.log(users[i]);
                         
-                        NotificationController.send(hosts[i].user.id_phone, hosts[i].user.firstname, nb_people) 
-                        res.status(201).json(p);
+                        NotificationController.send(users[i].id_phone, users[i].firstname, nb_people, users[i].phone_number) 
                     }
+                    res.status(201).json({localisation});
                 }) 
                 .catch( (err) => {
                     console.log(err);
@@ -72,13 +73,15 @@ sinisterRouter.post('/', function(req,res) {
 });
 
 sinisterRouter.put('/hosting', function (req,res) {
+    console.log("yo")
     const id_phone = req.body.id_phone;
     const id_host = req.body.id_host;
     let nb_people = undefined;
     let nb_lit = undefined;
-    
+    console.log(id_phone)
     SinisterController.findByPhone(id_phone)
         .then((sinister) => {
+            console.log(sinister)
             sinister = sinister[0];
             nb_people = sinister.nb_people;
             SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"2", id_host)
@@ -94,7 +97,18 @@ sinisterRouter.put('/hosting', function (req,res) {
                                 nb_lit = host.nb_bed - nb_people
                                 HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_city, host.address_name, host.address_zipcode)
                                     .then ((host) => {
-                                        res.status(201).json(host);
+                                        // Envoie notif a l'hote
+                                        HostController.getAll(host)
+                                            .then( (host) => {
+                                                console.log(host[0].user);
+                                                //NotificationController.send(id_phone, "ejfgoi", nb_people) 
+                                                NotificationController.send2(id_phone, host[0].user.phone_number, host[0].address_name + ", " + host[0].address_zipcode + ", " + host[0].address_city);
+                                                res.status(201).json({host});
+                                            })
+                                            .catch( (err) => {
+                                                console.log(err);
+                                                res.status(500).end();
+                                            })
                                     })
                                     .catch( (err) => {
                                         console.log(err);
