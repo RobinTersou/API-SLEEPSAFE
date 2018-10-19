@@ -3,9 +3,7 @@ const FCM = require('fcm-push');
 const serviceAccount = require("./fir-storage-sdk");
 
 NotificationController.send = function (user_token, surname, nb_bed) {
-  console.log("######################");
-  console.log(user_token)
-  console.log("######################");
+  
   var serverkey = serviceAccount.serveur_key;
   var fcm = new FCM(serverkey);
   var registrationToken = user_token;message = {

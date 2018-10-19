@@ -33,10 +33,8 @@ loginRouter.post('/', function(req, res) {
             if( UserController.verifyPassword(password, user.password) ) {
                 
                 var token = jwt.sign({ user : "sleepsafe" }, config.secret,);
-                console.log("OKKKKKKKKKKKKKKKKKK");
                 res.status(200).json({user,token}).end();
             } else {
-                console.log("ALUYIYTZD");
                 res.status(404).end();
             }
         })

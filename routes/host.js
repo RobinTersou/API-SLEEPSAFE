@@ -44,6 +44,7 @@ hostRouter.post('/', /*utils.checkToken,*/ function(req,res) {
     }
     HostController.add(distance, nb_bed, address_city, address_name, address_zipcode, id_user)
       .then( (host) => {
+          // Envoie notif
           res.status(201).json(host);
       })
       .catch( (err) => {

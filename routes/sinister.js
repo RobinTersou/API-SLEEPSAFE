@@ -51,23 +51,19 @@ sinisterRouter.post('/', function(req,res) {
         .then( (p) => {
             HostController.getAll()
                 .then( (hosts) => {
-                    // for(host in hosts) {
-                    //     NotificationController.send(hosts[host].user.id_phone, hosts[host].user.firstname, nb_people) 
-                    // }
+                    
                     for ( var i = 0 ; i < hosts.length ; i++ ) {
                         //console.log(hosts[i].user);
+                        
                         NotificationController.send(hosts[i].user.id_phone, hosts[i].user.firstname, nb_people) 
+                        res.status(201).json(p);
                     }
                 }) 
                 .catch( (err) => {
                     console.log(err);
                 })
 
-                
-            // Envoie notif
-             
-
-            res.status(201).json(p);
+            
         })
         .catch( (err) => {
             console.error(err);
@@ -96,7 +92,7 @@ sinisterRouter.put('/hosting', function (req,res) {
                             .then( (host) => {
                                 
                                 nb_lit = host.nb_bed - nb_people
-                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_city, host.address_name, host.address_zipcode)
                                     .then ((host) => {
                                         res.status(201).json(host);
                                     })
@@ -140,7 +136,7 @@ sinisterRouter.put('/release', function(req, res) {
                             .then( (host) => {
                                 
                                 nb_lit = host.nb_bed + nb_people
-                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_number, host.address_city, host.address_name, host.address_zipcode)
+                                HostController.update(id_host, host.distance, parseInt(nb_lit), host.address_city, host.address_name, host.address_zipcode)
                                     .then ((host) => {
                                         res.status(201).json(host);
                                     })
