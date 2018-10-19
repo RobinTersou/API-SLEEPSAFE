@@ -25,14 +25,18 @@ loginRouter.post('/', function(req, res) {
     }
     UserController.exist(email)
         .then( (user) => {
+            
             if( !user ) {
                 res.status(404).end();
                 return;
             }
             if( UserController.verifyPassword(password, user.password) ) {
+                
                 var token = jwt.sign({ user : "sleepsafe" }, config.secret,);
-                res.status(200).json(token).end();
+                console.log("OKKKKKKKKKKKKKKKKKK");
+                res.status(200).json({token}).end();
             } else {
+                console.log("ALUYIYTZD");
                 res.status(404).end();
             }
         })
