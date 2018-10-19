@@ -42,7 +42,7 @@ hostRouter.post('/', /*utils.checkToken,*/ function(req,res) {
         res.status(400).end();
         return;
     }
-    HostController.add(distance, nb_bed, address_number, address_city, address_name, address_zipcode, id_user)
+    HostController.add(distance, nb_bed, address_city, address_name, address_zipcode, id_user)
       .then( (host) => {
           res.status(201).json(host);
       })

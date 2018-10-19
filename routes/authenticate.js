@@ -34,7 +34,7 @@ loginRouter.post('/', function(req, res) {
                 
                 var token = jwt.sign({ user : "sleepsafe" }, config.secret,);
                 console.log("OKKKKKKKKKKKKKKKKKK");
-                res.status(200).json({token}).end();
+                res.status(200).json({user,token}).end();
             } else {
                 console.log("ALUYIYTZD");
                 res.status(404).end();

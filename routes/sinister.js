@@ -5,6 +5,7 @@ const SinisterController = controllers.SinisterController;
 const utils = require('../utils');
 const HostController = controllers.HostController;
 const sinisterRouter = express.Router();
+const NotificationController = require('../notifications').NotificationController;
 sinisterRouter.use(bodyParser.json());
 sinisterRouter.use(bodyParser.urlencoded({ extended: true }))
 
@@ -47,13 +48,31 @@ sinisterRouter.post('/', function(req,res) {
         return;
     }
     SinisterController.add(id_phone, nb_people, localisation, comment, id_host, id_status)
-      .then( (p) => {
-          res.status(201).json(p);
-      })
-      .catch( (err) => {
-          console.error(err);
-          res.status(500).end();
-      });
+        .then( (p) => {
+            HostController.getAll()
+                .then( (hosts) => {
+                    // for(host in hosts) {
+                    //     NotificationController.send(hosts[host].user.id_phone, hosts[host].user.firstname, nb_people) 
+                    // }
+                    for ( var i = 0 ; i < hosts.length ; i++ ) {
+                        //console.log(hosts[i].user);
+                        NotificationController.send(hosts[i].user.id_phone, hosts[i].user.firstname, nb_people) 
+                    }
+                }) 
+                .catch( (err) => {
+                    console.log(err);
+                })
+
+                
+            // Envoie notif
+             
+
+            res.status(201).json(p);
+        })
+        .catch( (err) => {
+            console.error(err);
+            res.status(500).end();
+        });
 });
 
 sinisterRouter.put('/hosting', function (req,res) {

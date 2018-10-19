@@ -5,7 +5,12 @@ const Op = ModelIndex.sequelize.Op;
 const HostController = function() { };
 
 HostController.getAll = function (id) {
-    const options = {};
+    const options = {
+        include: [{
+            model: ModelIndex.User,
+            as : 'user'
+        }]
+    };
     const where = {};
 
     if( id !== undefined ) {
