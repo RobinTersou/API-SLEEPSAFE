@@ -4,9 +4,13 @@ const serviceAccount = require("./fir-storage-sdk");
 
 NotificationController.send = function (user_token, surname, nb_bed, phone_number) {
   var serverkey = serviceAccount.serveur_key;
+  console.log("1111111111111111111111111111111111111111111111111");
   console.log(serverkey);
   var fcm = new FCM(serverkey);
   var registrationToken = user_token;
+  console.log("66666666666666666");
+  console.log(registrationToken);
+  console.log("66666666666666666");
   message = {
     "to" : registrationToken,
     "notification" : {
@@ -18,8 +22,12 @@ NotificationController.send = function (user_token, surname, nb_bed, phone_numbe
   };
   fcm.send(message, function(err,response){
     if(err) {
+      console.log("3333");
+      console.log(err);
+      console.log("3333");
       return 0;
     } else {
+      console.log("2222222222222");
       return 1;
     }
     return 0;

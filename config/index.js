@@ -5,8 +5,8 @@ module.exports = {
         dialect : 'mysql',
         dbname : 'sleepsafe',
         user : 'root',
-        password : 'root',
-        port : 8889
+        password : '',
+        port : 3306
     },
     status : [
         "waiting",
