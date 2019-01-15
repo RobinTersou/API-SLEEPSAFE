@@ -4,9 +4,31 @@ const controllers = require('../controllers');
 const HostController = controllers.HostController;
 const utils = require('../utils');
 const hostRouter = express.Router();
+
+
 hostRouter.use(bodyParser.json());
 hostRouter.use(bodyParser.urlencoded({ extended: true }))
 
+//MIDDLEWARE --> auth JWT | update and delete
+/*hostRouter.use(['/:id'], function (req, res, next) {
+  var token = req.headers['x-access-token'];
+
+  if (req.params.user_id == "create") {
+    next();
+    return;
+  }
+
+  if (!token)
+    return res.status(401).json({ "auth": "false", "message": "Problème lors de l'authentification" });
+
+  jwt.verify(token, auth.secret, function(err, decoded) {
+    if (err)
+      return res.status(500).json({ "auth": "false", "message": "Problème lors de l'authentification" });
+    if (decoded.id != req.params.user_id)
+      return res.status(500).json({ "auth": "false", "message": "Vous ne disposez pas des droits nécessairent"})
+    next();
+  });
+});*/
 
 hostRouter.get('/:id?', /*utils.checkToken,*/ function(req, res) {
     const name = req.query.name;
@@ -29,11 +51,11 @@ hostRouter.post('/', /*utils.checkToken,*/ function(req,res) {
     const nb_bed = req.body.nb_bed
     const id_user = req.body.id_user
 
-    if( distance === undefined 
-        || address_name === undefined 
-        || address_zipcode === undefined 
-        || address_city === undefined 
-        || nb_bed === undefined 
+    if( distance === undefined
+        || address_name === undefined
+        || address_zipcode === undefined
+        || address_city === undefined
+        || nb_bed === undefined
         || id_user === undefined ) {
         res.status(400).end();
         return;
@@ -57,14 +79,14 @@ hostRouter.put('/:id', /*utils.checkToken,*/ function(req,res) {
     const address_zipcode = req.body.address_zipcode
     const nb_bed = req.body.nb_bed
     const id_user = req.body.id_user;
-    if( distance === undefined 
-        || address_name === undefined 
-        || address_zipcode === undefined 
-        || address_city === undefined 
-        || nb_bed === undefined 
-        || id_host === undefined 
+    if( distance === undefined
+        || address_name === undefined
+        || address_zipcode === undefined
+        || address_city === undefined
+        || nb_bed === undefined
+        || id_host === undefined
         || id_user === undefined ) {
-            
+
             res.status(400).end();
             return;
     }

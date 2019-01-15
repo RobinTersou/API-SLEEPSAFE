@@ -73,12 +73,10 @@ sinisterRouter.post('/', function(req,res) {
 });
 
 sinisterRouter.put('/hosting', function (req,res) {
-    console.log("yo")
     const id_phone = req.body.id_phone;
     const id_host = req.body.id_host;
     let nb_people = undefined;
     let nb_lit = undefined;
-    console.log(id_phone)
     SinisterController.findByPhone(id_phone)
         .then((sinister) => {
             console.log(sinister)
@@ -86,7 +84,6 @@ sinisterRouter.put('/hosting', function (req,res) {
             nb_people = sinister.nb_people;
             SinisterController.update(sinister.id, id_phone,sinister.nb_people,sinister.localisation,sinister.comment,"2", id_host)
                 .then( (s) => {
-
                     if (sinister.nb_people === undefined) {
                         res.status(403).json('Data missing').end();
                         return;
@@ -100,13 +97,6 @@ sinisterRouter.put('/hosting', function (req,res) {
                                         // Envoie notif a l'hote
                                         HostController.getAll(host)
                                             .then( (host) => {
-                                              console.log("11111111");
-                                                console.log(host);
-                                                console.log(host[0].user);
-                                                console.log(host[0].user.phone_number);
-                                                  console.log("11111111");
-                                                    console.log("11111111");
-                                                      console.log("11111111");
                                                 //NotificationController.send(id_phone, "ejfgoi", nb_people)
                                                 NotificationController.send2(id_phone, host[0].user.phone_number, host[0].address_name + ", " + host[0].address_zipcode + ", " + host[0].address_city);
                                                 res.status(201).json({host});

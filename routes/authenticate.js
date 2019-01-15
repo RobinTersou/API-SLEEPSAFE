@@ -17,23 +17,30 @@ loginRouter.use(bodyParser.json());
  * Connexion
  */
 loginRouter.post('/', function(req, res) {
-    
+
     const email = req.body.email;
     const password = req.body.password;
+    const id_phone = req.body.id_phone;
     if( email === undefined || password === undefined ) {
         res.status(400).end();
     }
     UserController.exist(email)
         .then( (user) => {
-            
+
             if( !user ) {
                 res.status(404).end();
                 return;
             }
             if( UserController.verifyPassword(password, user.password) ) {
-                
                 var token = jwt.sign({ user : "sleepsafe" }, config.secret,);
-                res.status(200).json({user,token}).end();
+                UserController.update(user.id, id_phone, undefined, undefined, undefined, undefined)
+                .then( (user) => {
+                  res.status(200).json(user)
+                })
+                .catch( (err) => {
+                  console.log(err);
+                  res.status(500).end();
+                })
             } else {
                 res.status(404).end();
             }

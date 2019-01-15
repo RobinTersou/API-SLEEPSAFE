@@ -30,18 +30,21 @@ UserController.add = function( id_phone, email, firstname, lastname, phone_numbe
 }
 
 UserController.update = function(id, id_phone, email, firstname, lastname, phone_number ) {
-    return User.update({
-        id_phone : id_phone,
-        email : email,
-        firstname : firstname,
-        lastname : lastname,
-        phone_number : phone_number
-    }, {
+    var options = {};
+    if(id_phone !== undefined){options.id_phone = id_phone};
+    if(email !== undefined){options.email = email};
+    if(firstname !== undefined){options.firstname = firstname};
+    if(lastname !== undefined){options.lastname = lastname};
+    if(phone_number !== undefined){options.phone_number = phone_number};
+
+    return User.update(
+      options, {
         where : {
             id : id
         }
     })
 }
+
 
 UserController.delete = function(id) {
     return User.destroy({

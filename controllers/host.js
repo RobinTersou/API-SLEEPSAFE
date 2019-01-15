@@ -5,9 +5,6 @@ const Op = ModelIndex.sequelize.Op;
 const HostController = function() { };
 
 HostController.getAll = function (id) {
-  console.log("5555555555555555555");
-    console.log(id);
-    console.log("5555555555555555555");
     const options = {
         include: [{
             model: ModelIndex.User,
